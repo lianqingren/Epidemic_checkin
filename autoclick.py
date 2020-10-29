@@ -33,11 +33,9 @@ def epidemic_auto_checkin():
         '//*[@id="password1"]').send_keys(os.environ['ActonMartin_PASSWORD'])
     # 在输入用户名和密码之后,点击登陆按钮
     browser.find_element_by_xpath("/html/body/main/section[2]/form/div[3]/input").click()
-    time.sleep(1)
+    time.sleep(2)
     try:
-        if("今日已上报" in browser.find_element_by_xpath("/html/body/main/section/header/div[1]/span").text):
-            saveFile("明日再来!")
-        else:
+        if("今日未上报" in browser.find_element_by_xpath("/html/body/main/section/header/div[1]/span").text):
             browser.find_element_by_xpath("/html/body/main/section/header/div[2]/button").click()
             time.sleep(1)
             sreach_window=browser.current_window_handle
@@ -49,6 +47,9 @@ def epidemic_auto_checkin():
             # js = 'document.getElementById("checkin-div").children[0].click();'
             # browser.execute_script(js)
             print("今日打卡打卡成功")
+        
+        else:
+            pass
         time.sleep(3)
         saveFile("疫情签到成功！")
     except NoSuchElementException as e:
